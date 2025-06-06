@@ -18,7 +18,7 @@ function MostrarDatos(datos){
                 <td>${integrante.correo}</td>
                 <td>
                     <button>Editar</button>
-                    <button>Editar</button>
+                    <button onClick="EliminarPersona(${integrante.id})">Eliminar</button>
                 </td>
             </tr>
         `;
@@ -70,6 +70,23 @@ document.getElementById("frmAgregar").addEventListener("submit", async e => {
 
         ObtenerIntegrantes();
     }
-    
+    else{
+        //en caso de que la API devuelve un codigo diferente a 200-299
+        alert("El registro no se pudo ser guardado");
+    }
 
+    
 });
+
+async function EliminarPersona(id){
+    const confirmacion = confirm ("¿Realmente deseas eliminar el registro?");
+
+    if(confirmacion){
+        await fetch(`${API_URL}/${id}`, {
+            method : "DELETE"
+        });
+
+        //recargar la tabla despues de eliminar 
+        ObtenerIntegrantes();
+    }
+}
